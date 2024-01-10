@@ -1,0 +1,13 @@
+<div class="container" *ngFor="let genre of listGenres; let i = index">
+    <div class="genres-area">
+        <h4>BROWSE GENRES</h4>
+        <div class="list-genres">
+            <div class="genres" (click)="getBookByGenre(genre.title)">
+                <a [routerLink]="['/book-by-genres']" [queryParams]="{genre: genre.title}">
+                    <img [src]="genre?.thumb" alt="">
+                    <span>{{genre?.title}}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

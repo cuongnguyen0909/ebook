@@ -1,0 +1,111 @@
+.space {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 741px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(110, 111, 111, 0.497);
+  z-index: 100;
+  /* visibility: hidden; */
+}
+
+/* .active {
+  visibility: visible;
+} */
+
+.space .container {
+  width: 450px;
+  height: 550px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 1px 1px 10px #252525;
+}
+.container .form-login {
+  position: relative;
+  min-width: 350px;
+  height: 100%;
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+}
+.form-login .rbo-info {
+  width: 100%;
+}
+.rbo-info .rbo-logo {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rbo-logo .logo {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #ff7854 0%, #ff5079 100%);
+}
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+.rbo-info .rbo-title {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  color: #555555;
+}
+.rbo-info .rbo-desc {
+  width: 100%;
+  height: 40px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  font-weight: 300;
+  color: #555555;
+}
+.form-login form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+form input {
+  width: 322px;
+  height: 38px;
+  border-radius: 6px;
+  border: 1.5px solid gray;
+  font-size: 15px;
+  margin-top: 30px;
+  padding: 0px 15px;
+}
+form input:focus {
+  box-shadow: 0 0 5px 0px rgba(43, 184, 240, 0.5);
+  outline: none;
+}
+form button {
+  width: 322px;
+  height: 38px;
+  font-size: 15px;
+  margin-top: 30px;
+  border-radius: 6px;
+  border: none;
+  color: #fff;
+  background-color: #17a288;
+  letter-spacing: 1.5px;
+}

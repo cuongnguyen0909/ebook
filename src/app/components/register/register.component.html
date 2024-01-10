@@ -1,0 +1,102 @@
+<div class="fixed top-0 left-0 w-full min-h-[741px] flex justify-center items-center backdrop-brightness-50 z-50">
+    <div class="w-[450px] h-[550px] bg-white">
+        <div class="relative pt-[25px]">
+            <div class="flex items-center justify-center flex-col gap-8">
+                <div
+                    class="flex w-[70px] h-[70px] justify-center items-center rounded-full bg-gradient-to-r from-[#ff7854] from-0% to-[#ff5079] via-100%">
+                    <img class=" w-[40px] h-[40px] object-cover cursor-pointer" (click)="backToHome()"
+                        src="http://localhost:4200/assets/images/books.png" alt="">
+                </div>
+                <span class="text-3xl capitalize font-bold">
+                    register
+                </span>
+            </div>
+        </div>
+        <div class="flex flex-col pt-10" *ngIf="isShowRegisterForm">
+            <form class="flex flex-col items-center gap-4" method="post" [formGroup]="formRegister"
+                (ngSubmit)="register()">
+                <div>
+                    <!-- emaill input -->
+                    <div class="flex flex-col">
+                        <input formControlName="email" type="email" placeholder="Email"
+                            class="focus:shadow-input focus:outline-none border border-gray-500 w-[322px] h-[38px] rounded-md p-4">
+                        <span class="text-red-500"
+                            *ngIf="formRegister.get('email')?.hasError('required') && formRegister.get('email')?.touched">
+                            Email is required
+                        </span>
+                        <span class="text-red-500"
+                            *ngIf="formRegister.get('email')?.hasError('email') && formRegister.get('email')?.touched">
+                            Email is invalid
+                        </span>
+                    </div>
+
+                    <!-- password input -->
+                    <div class="flex flex-col">
+                        <input formControlName="password" type="password" placeholder="Password"
+                            class="focus:shadow-input focus:outline-none border border-gray-500 w-[322px] h-[38px] rounded-md p-4">
+                        <span class="text-red-500"
+                            *ngIf="formRegister.get('password')?.hasError('required') && formRegister.get('password')?.touched">
+                            Password is required
+                        </span>
+                        <span class="text-red-500" *ngIf="formRegister.get('password')?.hasError('minLength')">
+                            Password must be at least 6 characters
+                        </span>
+                    </div>
+
+
+                    <!-- name input -->
+                    <div class="flex flex-col">
+                        <input formControlName="name" type="name" placeholder="Name"
+                            class="focus:shadow-input focus:outline-none border border-gray-500 w-[322px] h-[38px] rounded-md p-4">
+                        <span class="text-red-500"
+                            *ngIf="formRegister.get('name')?.hasError('required') && formRegister.get('name')?.touched">
+                            Name is required
+                        </span>
+                    </div>
+
+                    <!-- phone iput -->
+                    <div class="flex flex-col">
+                        <input formControlName="phone" type="phone" placeholder="Phone Number"
+                            class="focus:shadow-input focus:outline-none border border-gray-500 w-[322px] h-[38px] rounded-md p-4">
+                        <span class="text-red-500"
+                            *ngIf="formRegister.get('phone')?.hasError('required') && formRegister.get('phone')?.touched">
+                            Phone is required
+                        </span>
+                        <span class="text-red-500"
+                            *ngIf="formRegister.get('phone')?.hasError('minLength') && formRegister.get('phone')?.hasError('maxLength')">
+                            Phone number must be 10 digits
+                        </span>
+                    </div>
+                </div>
+                <span class="flex justify-center items-center w-[322px] m-auto pt-4">
+                    <button type="submit"
+                        class="p-2 border border-gray-500 w-full rounded-md bg-[#17a288] text-white text-[15px]">
+                        Register
+                    </button>
+                </span>
+            </form>
+            <div class="flex justify-end items-end">
+                <span class="p-6 pr-[60px] cursor-pointer hover:text-sky-600">
+                    <button (click)="backToLogin()">Back to login</button>
+                </span>
+            </div>
+        </div>
+        <div class="flex flex-col pt-10" *ngIf="isVeirfyEmail">
+            <form class="flex flex-col items-center gap-4" method="put" (ngSubmit)="verifyEmail()"
+                [formGroup]="formVerifyEmail">
+                <div>
+                    <input formControlName="token" type="text" placeholder="Enter your token to verify email"
+                        class="focus:shadow-input focus:outline-none border border-gray-500 w-[322px] h-[38px] rounded-md p-4">
+                    <span class="flex justify-center items-center w-[322px] m-auto pt-4">
+                        <button type="submit"
+                            class="p-2 border border-gray-500 w-full rounded-md bg-[#17a288] text-white text-[15px]">
+                            Submit
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>

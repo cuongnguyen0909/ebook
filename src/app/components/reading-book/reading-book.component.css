@@ -1,0 +1,96 @@
+.container{
+    position: relative;
+    min-width: 1500px;
+    width: 100%;
+    height: 780px;
+    padding: 20px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container .book{
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    width: 150px;
+    height: 245px;
+    margin:0px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.book img{
+    width: 150px;
+    height: 220px;
+    object-fit: cover;
+}
+.book span{
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container .list-page-area{
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.list-page-area .list-page{
+    position: relative;
+    width: 70%;
+    height: 95%;
+    overflow: hidden;
+}
+.list-page .pages {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 1000px;
+    width: auto;
+    height: 100%; 
+    display: flex;
+    overflow:hidden;
+    background-color: rgb(133, 211, 175);
+    /* overflow-x: scroll; */
+}
+.page{
+    min-width: 750px;
+    width: 750px;
+    height: 100%;
+    margin-right: 10px;
+    background-color: rgb(215, 224, 231);
+    transition: all 0.5s ease-in-out;
+}
+.list-page-area .control{
+    width: 1000px;
+    top: -30%;
+    position: relative;
+    height: 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+}
+.control button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    border: none;
+    background: transparent;
+}
+.control button i{
+    font-size: 100px;
+    color: rgba(118, 120, 121, 0.625);
+}
+
+.current-page {
+    width: 100%;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.current-page span{
+    font-family: Arial, Helvetica, sans-serif;
+}

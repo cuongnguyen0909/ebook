@@ -1,0 +1,20 @@
+import { Directive, ElementRef, HostListener } from '@angular/core';
+
+@Directive({
+  selector: '[appPrev]',
+})
+export class PrevDirective {
+  constructor(private el: ElementRef) {}
+
+  @HostListener('click')
+  prevFunc() {
+    let elm =
+      this.el.nativeElement.parentElement.parentElement.children[0].children[0];
+    let page = elm.getElementsByClassName('page');
+    elm.prepend(page[page.length - 1]);
+
+
+
+
+  }
+}

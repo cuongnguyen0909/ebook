@@ -1,0 +1,34 @@
+<div class="container" *ngFor="let book of listBooks; let i = index">
+    <div class="books-by-genres">
+        <h4>{{genre}}</h4>
+        <div class="list-books">
+            <div class="book" (click)="redirectToBookDetail(book._id)">
+                <img [src]="book.thumb" alt="">
+                <div class="b-author">
+                    <span>{{book.author}}</span>
+                </div>
+                <div class="hover">
+                    <div class="image">
+                        <img src="http://localhost:4200/assets/images/romance.jpg" alt="">
+                    </div>
+                    <div class="info">
+                        <div class="name-book">
+                            <span>{{book.title}}</span>
+                        </div>
+                        <div class="author">
+                            <span><span style="color: rgb(44, 44, 44);">by </span>{{book.author}}</span>
+
+                        </div>
+                        <div class="control">
+                            <button>Download</button>
+                            <button (click)="redirectToBookDetail(book._id)">Read more</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
