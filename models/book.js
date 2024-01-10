@@ -2,11 +2,16 @@ const mongoose = require('mongoose'); // Erase if already required
 
 // Declare the Schema of the Mongo model
 var bookSchema = new mongoose.Schema({
-    name: {
+    title: {
         type: String,
         required: true,
         unique: true,
         index: true,
+    },
+    slug: {
+        type: String,
+        required: true,
+        unique: true,
     },
     genre: {
         type: String,
@@ -22,12 +27,31 @@ var bookSchema = new mongoose.Schema({
     },
     thumb: {
         type: String,
+        required: true,
+    },
+    fileReader: {
+        type: String,
         default: '',
+        required: true,
     },
-    rating: {
-        type: Number,
-        default: 0,
-    },
+    ratings: [
+        {
+            star: {
+                type: Number
+            },
+            ratingBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            },
+            comment: {
+                type: String
+            },
+            updatedAt: {
+                type: Date,
+                default: Date.now()
+            }
+        }
+    ],
     totalRating: {
         type: Number,
         default: 0,
@@ -37,6 +61,10 @@ var bookSchema = new mongoose.Schema({
         default: Date.now()
     },
     totalPage: {
+        type: Number,
+        default: 0,
+    },
+    totalView: {
         type: Number,
         default: 0,
     },

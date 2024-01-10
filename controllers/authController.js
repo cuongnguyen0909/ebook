@@ -8,6 +8,7 @@ const makeToken = require('uniqid');
 
 const register = asyncHandler(async (req, res) => {
     const { email, password, name, phone } = req.body;
+    console.log(req.body)
     if (!email) {
         return res.status(400).json({
             status: false,
@@ -86,18 +87,19 @@ const finalRegister = asyncHandler(async (req, res) => {
 
 const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
-    if (!email) {
-        res.status(400).json({
-            status: false,
-            message: 'Email is required',
-        })
-    }
-    if (!password) {
-        res.status(400).json({
-            status: false,
-            message: 'Password is required',
-        })
-    }
+    // console.log(req.body)
+    // if (!email) {
+    //     res.status(400).json({
+    //         status: false,
+    //         message: 'Email is required',
+    //     })
+    // }
+    // if (!password) {
+    //     res.status(400).json({
+    //         status: false,
+    //         message: 'Password is required',
+    //     })
+    // }
     //repsonse se la mot instance cua mongo chu khong phai la mot object thuan(plain object)
     const user = await User.findOne({ email });
     // console.log(response.isCorrectPassword(password));//Promise { <pending> }
