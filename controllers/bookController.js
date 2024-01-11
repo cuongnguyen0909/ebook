@@ -8,16 +8,11 @@ const createBook = asyncHandler(async (req, res) => {
     if (!req.files || Object.keys(req.files).length === 0) {
         throw new Error('No files were uploaded');
     }
-    // Lấy thông tin ảnh từ req.files
-    const thumb = req.files.thumb[0].path;
-
-    // Lưu trữ file EPUB trên máy chủ hoặc sử dụng dịch vụ lưu trữ khác
-    const fileReader = 'back-end/' + req.files.fileReader[0].destination + '/' + req.files.fileReader[0].filename;
-    if (thumb) {
-        req.body.thumb = thumb;
+    if (req.files?.thumb) {
+        req.body.thumb = req.files?.thumb[0].filename;
     }
-    if (fileReader) {
-        req.body.fileReader = fileReader;
+    if (req.files.fileReader) {
+        req.body.fileReader = req.files?.fileReader[0].filename;
     }
 
     if (!(title || genre || author || description || publication_date || totalPage)) {
@@ -25,7 +20,7 @@ const createBook = asyncHandler(async (req, res) => {
     }
     req.body.slug = slugify(title);
 
-    const book = await Book.create({ ...req.body, thumb, fileReader });
+    const book = await Book.create({ ...req.body });
     res.status(201).json({
         success: book ? true : false,
         message: book ? 'Book created successfully' : 'Book not created',
@@ -102,7 +97,7 @@ const getBooks = asyncHandler(async (req, res) => {
 
 const getOneBook = asyncHandler(async (req, res) => {
     const { bid } = req.params;
-    const book = await Book.findById(bid).populate('ratings.ratingBy', 'name avatar');
+    const book = await Book.findById(bid).populate('ratings.ratingBy', 'name avatar updatedAt');
     // console.log(product?.ratings?.postedBy);
     return res.status(200).json({
         status: book ? true : false,
@@ -120,11 +115,10 @@ const updateBook = asyncHandler(async (req, res) => {
     console.log(req.files)
     // Lưu trữ file EPUB trên máy chủ hoặc sử dụng dịch vụ lưu trữ khác
     if (req.files?.thumb[0]?.path) {
-        req.body.thumb = req.files?.thumb[0]?.path;
+        req.body.thumb = req.files?.thumb[0].filename;
     }
     if (req.files.fileReader[0]?.path) {
-        req.body.fileReader = req.files.fileReader[0]?.path;
-        console.log(1)
+        req.body.fileReader = req.files?.fileReader[0].filename;
     }
     if (req.body.title) {
         req.body.slug = slugify(title);

@@ -46,7 +46,7 @@ var bookSchema = new mongoose.Schema({
             comment: {
                 type: String
             },
-            updatedAt: {
+            updateAt: {
                 type: Date,
                 default: Date.now()
             }

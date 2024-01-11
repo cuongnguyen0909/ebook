@@ -3,16 +3,16 @@ const path = require('path');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const ext = path.extname(file.originalname).toLowerCase();
-        if (ext === '.epub') {
-            cb(null, 'uploads/ebook')
+        if (ext === '.epub' || ext === ".pdf") {
+            cb(null, 'ebooks')
         } else if (['.jpg', '.png', '.jpeg', '.webp', '.gif'].includes(ext)) {
-            cb(null, 'uploads/images')
+            cb(null, 'images')
         } else {
             cb(new Error('Invalid file type'), false)
         }
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
+        cb(null, file.originalname)
     }
 })
 

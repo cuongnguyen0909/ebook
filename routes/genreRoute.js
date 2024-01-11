@@ -4,6 +4,7 @@ const { verifyAccessToken } = require('../middlewares/verifyToken');
 const isAdmin = require('../middlewares/isAdmin');
 // const upload = require('../config/cloudinary.config');
 const uploadFile = require('../config/uploadFile');
+
 router.post('/', verifyAccessToken, isAdmin, uploadFile.single('thumb'), genreController.createGenre);
 router.get('/', genreController.getAllGenres);
 // router.put('/ratings', verifyAccessToken, bookController.ratingBook);

@@ -1,6 +1,7 @@
 const Genre = require('../models/genre');
 const asyncHandler = require('express-async-handler');
-
+const path = require('path');
+const fs = require('fs');
 const createGenre = asyncHandler(async (req, res) => {
     const { title } = req.body;
     if (!title) {
@@ -9,12 +10,22 @@ const createGenre = asyncHandler(async (req, res) => {
     console.log(req.file)
 
     // i want path thum is backend\uploads\images\1619792020000-1.jpg
-    const thumb = req.file.path;
+    let thumb = '';
 
-    if (thumb) {
-        req.body.thumb = thumb;
+    if (req.file) {
+        const uploadDir = path.join(__dirname, 'uploads', 'images');
+
+        // Ensure the uploads directory and images subdirectory exist
+        fs.mkdirSync(uploadDir, { recursive: true });
+
+        // Construct the path for the thumb
+        thumb = path.join(uploadDir, req.file.filename);
     }
-    console.log(thumb)
+    if (req.file) {
+        req.body.thumb = req.file.filename;
+    }
+    console.log(req.body.thumb)
+    console.log(req.body)
 
     const genre = await Genre.create({ ...req.body, thumb });
     res.status(201).json({
@@ -35,12 +46,12 @@ const getAllGenres = asyncHandler(async (req, res) => {
 
 const updateGenre = asyncHandler(async (req, res) => {
     const { gid } = req.params;
-    const thumb = req.file.path;
-    if (thumb) {
-        req.body.thumb = thumb;
+    let thumb = '';
+
+    if (req.file) {
+        thumb = req.file.filename;
     }
-    console.log({ ...req.body })
-    const genre = await Genre.findByIdAndUpdate(gid, { ...req.body }, { new: true });
+    const genre = await Genre.findByIdAndUpdate(gid, { ...req.body, thumb }, { new: true });
     res.status(200).json({
         status: genre ? true : false,
         message: genre ? 'Genre updated successfully' : 'Genre not updated',
