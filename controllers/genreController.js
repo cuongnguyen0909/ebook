@@ -9,25 +9,10 @@ const createGenre = asyncHandler(async (req, res) => {
     }
     console.log(req.file)
 
-    // i want path thum is backend\uploads\images\1619792020000-1.jpg
-    let thumb = '';
-
-    if (req.file) {
-        const uploadDir = path.join(__dirname, 'uploads', 'images');
-
-        // Ensure the uploads directory and images subdirectory exist
-        fs.mkdirSync(uploadDir, { recursive: true });
-
-        // Construct the path for the thumb
-        thumb = path.join(uploadDir, req.file.filename);
-    }
     if (req.file) {
         req.body.thumb = req.file.filename;
     }
-    console.log(req.body.thumb)
-    console.log(req.body)
-
-    const genre = await Genre.create({ ...req.body, thumb });
+    const genre = await Genre.create(req.body);
     res.status(201).json({
         status: genre ? true : false,
         message: genre ? 'Genre created successfully' : 'Genre not created',
@@ -69,6 +54,17 @@ const deleteGenre = asyncHandler(async (req, res) => {
     })
 })
 
+const getGenreById = asyncHandler(async (req, res) => {
+    const { gid } = req.params;
+    const genre = await Genre.findById(gid);
+    res.status(200).json({
+        status: genre ? true : false,
+        message: genre ? 'Get genre by id successfully' : 'Get genre by id failed',
+        data: genre
+    })
+})
+
 module.exports = {
-    createGenre, getAllGenres, updateGenre, deleteGenre
+    createGenre, getAllGenres, updateGenre, deleteGenre,
+    getGenreById
 }

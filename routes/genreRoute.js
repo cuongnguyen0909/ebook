@@ -7,6 +7,7 @@ const uploadFile = require('../config/uploadFile');
 
 router.post('/', verifyAccessToken, isAdmin, uploadFile.single('thumb'), genreController.createGenre);
 router.get('/', genreController.getAllGenres);
+router.get('/:gid', verifyAccessToken, isAdmin, genreController.getGenreById);
 // router.put('/ratings', verifyAccessToken, bookController.ratingBook);
 // router.get('/:bid', bookController.getOneBook);
 router.put('/:gid', verifyAccessToken, isAdmin, uploadFile.single('thumb'), genreController.updateGenre);

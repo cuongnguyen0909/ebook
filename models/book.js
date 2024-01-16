@@ -57,8 +57,7 @@ var bookSchema = new mongoose.Schema({
         default: 0,
     },
     publication_date: {
-        type: Date,
-        default: Date.now()
+        type: String
     },
     totalPage: {
         type: Number,
