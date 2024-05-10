@@ -102,23 +102,23 @@ const login = asyncHandler(async (req, res) => {
     // }
     //repsonse se la mot instance cua mongo chu khong phai la mot object thuan(plain object)
     const user = await User.findOne({ email });
+    const role = user.role;
     // console.log(response.isCorrectPassword(password));//Promise { <pending> }
+    if (user.status !== 'active') {
+        return res.status(400).json({
+            status: false,
+            message: 'Your account is not active. Please contract admin to active your account',
+        })
+    }
     if (user && (await user.isCorrectPassword(password))) {
         //su dung destructoring de remove passord va role khoi nguoi dung
         const { password, role, ...userData } = user.toObject();
         const accessToken = generateAccessToken(user._id, role);
-        // const newRefreshToken = generateRefreshToken(user._id);
-        //lu refresh token vao database
-        // await User.findByIdAndUpdate(user._id, { newRefreshToken }, { new: true });
-        //luu refrehToken vao cookie
-        // res.cookie('refreshToken', newRefreshToken, {
-        //     httpOnly: true,
-        //     maxAge: 7 * 24 * 60 * 60 * 1000,
-        // });
         return res.status(200).json({
             status: true,
             accessToken,
             userData,
+            role
         });
     } else {
         throw new Error('User not found or password not matched');

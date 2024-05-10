@@ -2,7 +2,6 @@ const router = require('express').Router();
 const bookController = require('../controllers/bookController');
 const { verifyAccessToken } = require('../middlewares/verifyToken');
 const isAdmin = require('../middlewares/isAdmin');
-// const upload = require('../config/cloudinary.config');
 const uploadFile = require('../config/uploadFile');
 router.post('/', verifyAccessToken, isAdmin, uploadFile.fields([
     {

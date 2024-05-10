@@ -1,28 +1,34 @@
 const Book = require('../models/book');
+const User = require('../models/user');
 const asyncHandler = require('express-async-handler');
 const slugify = require('slugify');
+
+
 const createBook = asyncHandler(async (req, res) => {
     const { title, genre, author, description,
-        publication_date, totalPage, totalView = 0 } = req.body;
+        publication_date, totalPage } = req.body;
     console.log(req?.files)
+    const thumb = req.files?.thumb[0].filename;
+    const fileReader = req.files?.fileReader[0].filename;
     if (!req.files || Object.keys(req.files).length === 0) {
         throw new Error('No files were uploaded');
     }
-    if (req.files?.thumb) {
-        req.body.thumb = req.files?.thumb[0].filename;
+    if (thumb) {
+        req.body.thumb = thumb;
     }
-    if (req.files.fileReader) {
-        req.body.fileReader = req.files?.fileReader[0].filename;
+    if (fileReader) {
+        req.body.fileReader = fileReader;
     }
 
     if (!(title || genre || author || description || publication_date || totalPage)) {
         throw new Error('Missing required fields')
     }
+
     req.body.slug = slugify(title);
 
-    const book = await Book.create({ ...req.body });
-    res.status(201).json({
-        success: book ? true : false,
+    const book = await Book.create(req.body);
+    return res.status(201).json({
+        status: book ? true : false,
         message: book ? 'Book created successfully' : 'Book not created',
         data: book
     })
@@ -56,14 +62,15 @@ const getBooks = asyncHandler(async (req, res) => {
     }
     if (req.query.query) {
         delete formattedQueries.query;
+        const regexQuery = { $regex: req.query.query, $options: 'i' };
         formattedQueries['$or'] = [
-            { title: { $regex: req.query.title, $options: 'i' } },
-            { genre: { $regex: req.query.genre, $options: 'i' } },
-            { author: { $regex: req.query.author, $options: 'i' } },
-        ]
+            { title: regexQuery },
+            { genre: regexQuery },
+            { author: regexQuery },
+        ];
     }
 
-    let queryCommand = Book.find(formattedQueries);
+    let queryCommand = Book.find(formattedQueries).populate('ratings.ratingBy', 'name avatar updatedAt');
 
     //Sorting
     if (req.query.sort) {
@@ -90,14 +97,20 @@ const getBooks = asyncHandler(async (req, res) => {
     return res.status(200).json({
         status: response ? true : false,
         total,
-        // results: response.length,
+        results: response.length,
         books: response ? response : 'Can not get books',
     });
 })
 
 const getOneBook = asyncHandler(async (req, res) => {
     const { bid } = req.params;
-    const book = await Book.findById(bid).populate('ratings.ratingBy', 'name avatar updatedAt');
+    const book = await Book.findByIdAndUpdate(bid,
+        {
+            $inc: { totalView: 1 }
+        },
+        {
+            new: true,
+        }).populate('ratings.ratingBy', 'name avatar updatedAt');
     // console.log(product?.ratings?.postedBy);
     return res.status(200).json({
         status: book ? true : false,
@@ -107,17 +120,18 @@ const getOneBook = asyncHandler(async (req, res) => {
     });
 })
 
+
+
 const updateBook = asyncHandler(async (req, res) => {
     const { bid } = req.params;
-    const { title, genre, author, description,
-        publication_date, totalPage } = req.body;
+    const { title } = req.body;
     // Lấy thông tin ảnh từ req.files
     console.log(req.files)
     // Lưu trữ file EPUB trên máy chủ hoặc sử dụng dịch vụ lưu trữ khác
-    if (req.files?.thumb[0]?.path) {
+    if (req.files?.thumb) {
         req.body.thumb = req.files?.thumb[0].filename;
     }
-    if (req.files.fileReader[0]?.path) {
+    if (req.files?.fileReader) {
         req.body.fileReader = req.files?.fileReader[0].filename;
     }
     if (req.body.title) {
@@ -125,13 +139,9 @@ const updateBook = asyncHandler(async (req, res) => {
     }
     // req.body.slug = slugify(title);
 
-    const updatedBook = await Book.findByIdAndUpdate(bid,
-        {
-            ...req.body
-        }
-        , {
-            new: true,
-        });
+    const updatedBook = await Book.findByIdAndUpdate(bid, req.body, {
+        new: true,
+    });
     return res.status(200).json({
         status: updatedBook ? true : false,
         message: updatedBook ? 'Update product successfully' : 'Can not update product',
