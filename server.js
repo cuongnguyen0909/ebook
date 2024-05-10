@@ -7,7 +7,7 @@ const initialRoute = require('./routes');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
-const port = 3000;
+const port = 4000;
 
 app.use(
     cors({
